@@ -1,19 +1,14 @@
-{% extends "djangoapp/base.html" %}
+{% extends "djangoapp/base.html" %} {% block title %}Home{% endblock %} {% block
+head %} {% endblock %} {% block content %}
+<div class="card text-center">
+  <div class="card-body">
+    <h1 class="card-title">Home</h1>
+    <p class="card-text">
+      Welcome to the homepage of the most patronized
+      <strong>Car Dealership</strong> in the nation.
+    </p>
+  </div>
+</div>
 
-{% block title %}Home{% endblock %}
-
-{% block head %}
-{% endblock %}
-
-{% block content %}
-    <div class="card text-center">
-        <div class="card-body">
-          <h1 class="card-title">Home</h1>
-          <p class="card-text">            
-            Welcome to the homepage of the most patronized <strong>Car Dealership</strong> in the nation.
-            </p>
-        </div>
-      </div>
-
-    <!--Add a dealer table here -->
+<!--Add a dealer table here -->
 {% endblock %}

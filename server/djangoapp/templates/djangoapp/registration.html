@@ -12,7 +12,7 @@
     action="{% url 'djangoapp:registration' %}"
     method="post"
   >
-  {% csrf_token %}
+    {% csrf_token %}
     <!-- User Name input -->
     <div class="mb-3">
       <label class="form-label" for="Username">User Name</label>
