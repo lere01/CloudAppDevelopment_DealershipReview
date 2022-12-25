@@ -10,6 +10,8 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/b7f44b3db0.js" crossorigin="anonymous"></script>
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -20,7 +22,7 @@
     {% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-expand-sm sticky-top navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm sticky-top navbar-light bg-light">
       <div style="padding-left: 50px">
         <a class="navbar-brand" href="#">Dealership Review</a>
       </div>
@@ -53,16 +55,18 @@
             >
           </li>
           {% if user.is_authenticated %}
-          <li>
-            <div>
-              <button class="btn btn-link" href="#">{{ user.username }}</button>
-              <a class="btn btn-link" href="{% url 'djangoapp:logout' %}"
+          <li style="position: absolute; right: 10px;">
+            <div class="d-flex">
+            <span>
+              <a class="btn btn-light" href="#" style="text-transform: capitalize;"><i class="fa-solid fa-user" style="margin-right: 10px;"></i>{{ user.username }}</a>
+            <span/>
+              <a class="btn btn-primary" href="{% url 'djangoapp:logout' %}"
                 >Logout</a
               >
             </div>
           </li>
           {% else %}
-          <li>
+          <li style="position: absolute; right: 10px;">
             <div class="container-fluid">
               <form
                 class="d-flex"
