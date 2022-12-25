@@ -1,38 +1,99 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% load static %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-    <body>
-        <div class="card text-black" style="border-radius: 25px;">
-        <div class="card-body p-md-5">
-            <div class="row justify-content-center" style="padding: 5.5rem">
-            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Registration</p>
-    <form class="mx-1 mx-md-4" action="{% url 'djangoapp:registration' %}" method="post">
-        <div class="form-group">
-          <label for="formGroupExampleInput">User Name</label>
-          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="User Name">
-        </div>
-        <div class="form-group">
-          <label for="formGroupExampleInput2">First Name</label>
-          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="First Name">
-        </div>
-        <div class="form-group">
-          <label for="formGroupExampleInput3">Last Name</label>
-          <input type="text" class="form-control" id="formGroupExampleInput3" placeholder="Last Name">
-        </div>
-        <div class="form-group">
-          <label for="formGroupExampleInput4">Password</label>
-          <input type="password" class="form-control" id="formGroupExampleInput4" placeholder="Password">
-        </div>
-        <button class="btn btn-primary" type="submit">Sign up</button>
-      </form>
-    </div>
+{% extends "djangoapp/base.html" %} {% block title %}Registration{% endblock %}
+{%block head %} {% endblock %} {% block content %}
+<div class="card text-center">
+  <div class="card-body">
+    <h1 class="card-title">Registration</h1>
+  </div>
 </div>
+<div class="container py-4">
+  <!-- Bootstrap 5 starter form -->
+  <form
+    id="contactForm"
+    action="{% url 'djangoapp:registration' %}"
+    method="post"
+  >
+  {% csrf_token %}
+    <!-- User Name input -->
+    <div class="mb-3">
+      <label class="form-label" for="Username">User Name</label>
+      <input
+        class="form-control"
+        id="username"
+        name="username"
+        type="text"
+        placeholder="User Name"
+        data-sb-validations="required"
+      />
+      <div class="invalid-feedback" data-sb-feedback="username:required">
+        User Name is required.
+      </div>
     </div>
-    </body>
-</html>
 
+    <!-- First Name input -->
+    <div class="mb-3">
+      <label class="form-label" for="firstname">First Name</label>
+      <input
+        class="form-control"
+        id="firstname"
+        name="firstname"
+        type="text"
+        placeholder="First Name"
+        data-sb-validations="required"
+      />
+      <div class="invalid-feedback" data-sb-feedback="firstname:required">
+        First Name is required.
+      </div>
+    </div>
 
+    <!-- Last Name input -->
+    <div class="mb-3">
+      <label class="form-label" for="lastname">Last Name</label>
+      <input
+        class="form-control"
+        id="lastname"
+        name="lastname"
+        type="text"
+        placeholder="Last Name"
+        data-sb-validations="required"
+      />
+      <div class="invalid-feedback" data-sb-feedback="lastname:required">
+        Last Name is required.
+      </div>
+    </div>
+
+    <!-- Password input -->
+    <div class="mb-3">
+      <label class="form-label" for="password">Password</label>
+      <input
+        class="form-control"
+        id="password"
+        name="password"
+        type="password"
+        placeholder="Password"
+        data-sb-validations="required, password"
+      />
+      <div class="invalid-feedback" data-sb-feedback="password:required">
+        Password is required.
+      </div>
+      <div class="invalid-feedback" data-sb-feedback="password:password">
+        Password is not valid.
+      </div>
+    </div>
+
+    <!-- Form submissions success message -->
+    <div class="d-none" id="submitSuccessMessage">
+      <div class="text-center mb-3">Form submission successful!</div>
+    </div>
+
+    <!-- Form submissions error message -->
+    <div class="d-none" id="submitErrorMessage">
+      <div class="text-center text-danger mb-3">Error sending message!</div>
+    </div>
+
+    <!-- Form submit button -->
+    <div class="d-grid">
+      <button class="btn btn-primary btn-lg" type="submit">Register</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
