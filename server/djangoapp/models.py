@@ -45,6 +45,8 @@ class CarModel(models.Model):
 class CarDealer:
     address: str
     city: str
+    full_name: str
+    short_name: str
     id: int
     lat: float
     long: float
@@ -53,7 +55,7 @@ class CarDealer:
     zip: str
 
     def __str__(self) -> str:
-        return f"{self.address}"
+        return f"{self.full_name}"
 
 
 # <HINT> Create a plain Python class `DealerReview` to hold review data
@@ -64,10 +66,11 @@ class DealerReview:
     car_year: int
     dealership: int
     id: int
-    name: str
+    sentiment: str
+    reviewer: str
     purchase: bool
     purchase_date: str
     review: str
-
+    
     def __str__(self) -> str:
-        return f"{self.name}"
+        return f"{self.reviewer}"
