@@ -2,21 +2,14 @@
 <html lang="en">
   <head>
     {% load static %}
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet"> -->
+    <link rel="shortcut icon" href="#" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/b7f44b3db0.js" crossorigin="anonymous"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script> -->
     {% block head %}
     <title>{% block title %}{% endblock %} - Dealership Reviews</title>
     {% endblock %}
@@ -108,7 +101,7 @@
         <a class="navbar-brand" href="#">Dealership Review</a>
         {% block footer %}{% endblock %}
         <span
-          >&copy; Copyright 2022 by <a href="#"> <em>lere01</em></a></span
+          >By <a href="https://github.com/lere01/CloudAppDevelopment_DealershipReview" target="_blank"> <em>lere01</em></a> 2022</span
         >
       </div>
     </nav>
@@ -123,5 +116,9 @@
       integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
       crossorigin="anonymous"
     ></script>
+    
+    {% block javascript %}
+
+    {% endblock %}
   </body>
 </html>
