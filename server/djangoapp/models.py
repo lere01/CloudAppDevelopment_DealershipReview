@@ -11,6 +11,7 @@ from dataclasses import dataclass
 # - Any other fields you would like to include in car make model
 # - __str__ method to print a car make object
 class CarMake(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(null=False, max_length=100)
     description = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -28,6 +29,7 @@ class CarMake(models.Model):
 # - Any other fields you would like to include in car model
 # - __str__ method to print a car make object
 class CarModel(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(null=False, max_length=100)
     dealer_id = models.IntegerField(null=False)
     car_type = models.CharField(null=False, max_length=50, choices=(
