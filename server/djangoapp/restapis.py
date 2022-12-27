@@ -1,8 +1,8 @@
 import requests
 import json
 import logging
-# import related models here
 from .models import CarDealer, DealerReview
+from .helpers import fa_lookup
 from requests.auth import HTTPBasicAuth
 
 logger = logging.getLogger(__name__)
@@ -28,10 +28,11 @@ def get_request(url, **kwargs):
     json_data = json.loads(response.text)
 
     if kwargs.get('dealerId'):
-        json_data = list(filter(
-            lambda x: x['doc']['id'] == kwargs['dealerId'],
+        new_data = list(filter(
+            lambda x: x['doc']['dealership'] == kwargs['dealerId'],
             json_data
         ))
+        return new_data
 
     return json_data
 
@@ -72,31 +73,44 @@ def get_dealers_from_cf(url, **kwargs):
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
 def get_dealer_by_id_from_cf(url, dealerId):
-    # - Call get_request() with specified arguments
-    dealer = get_request(url, dealerId=dealerId)
+    reviews = []
+    dealer_reviews = get_request(url, dealerId=dealerId)
 
     # - Parse JSON results into a DealerView object list
-    if dealer:
-        detail = dealer[0]['doc']
-        review = detail["review"]
-        sentiment = analyze_review_sentiments(review)
+    if dealer_reviews:
+        for review in dealer_reviews:
+            detail = review['doc']
+            review = detail["review"]
+            sentiment, emotion, emotion_color = analyze_review_sentiments(review)
+            print(detail)
 
-        review_obj = DealerReview(
-            car_make=detail['car_make'], car_model=detail['car_model'], car_year=detail['car_year'],
-            dealership=detail['dealership'], id=detail['id'], sentiment=sentiment, reviewer=detail['name'],
-            purchase=detail['purchase'], purchase_date=detail['purchase_date'], review=review
-        )
-        return review_obj
+            review_obj = DealerReview(
+                car_make=detail['car_make'], car_model=detail['car_model'], car_year=detail['car_year'],
+                dealership=detail['dealership'], sentiment=sentiment, reviewer=detail['name'],
+                purchase=detail['purchase'], purchase_date=detail['purchase_date'], review=review, 
+                emotion=emotion, emotion_color=emotion_color
+            )
+            reviews.append(review_obj)
+        
+        return reviews
 
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 def analyze_review_sentiments(text):
-    # - Call get_request() with specified arguments
-
     url = "https://us-south.functions.appdomain.cloud/api/v1/web/9cab6064-8f89-48a0-9509-f27bfdab97e9/api/sentiment"
     result = get_request(url, text=text)
 
     # - Get the returned sentiment label such as Positive or Negative
     if result:
-        sentiment = result["keywords"][0]["sentiment"]["label"]
-        return sentiment
+        keywords = result["keywords"][0]
+        try: 
+            emotions = keywords['emotion']
+            emotion = fa_lookup[max(emotions, key=emotion.get)].split(':')[0]
+            emotion_color = fa_lookup[max(emotions, key=emotion.get)].split(':')[1]
+            sentiment = keywords['sentiment']
+        except:
+            sentiment = "neutral"
+            emotion = fa_lookup["indifference"].split(':')[0]
+            emotion_color = fa_lookup["indifference"].split(':')[1]
+        
+        return (sentiment, emotion, emotion_color)

@@ -1,16 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+{% extends "djangoapp/base.html" %} 
+{% block title %}Add Review{% endblock %} 
+{% block head %} {% endblock %} {% block content %}
+<div class="card text-center">
+  <div class="card-body">
+    <h1 class="card-title">Add Review</h1>
+  </div>
+</div>
 
-</head>
-    <body>
-    <!--Add review form here -->
-    </body>
-</html>
+<!-- Add review form -->
+
+{% if user.is_authenticated %}
+<h3 style="margin: 20px 50px">Add a Review for {{ dealer_name }}</h3>
+
+<div class="container py-4">
+  <!-- Bootstrap 5 starter form -->
+  <form
+    id="contactForm"
+    action="{% url 'djangoapp:addreview' dealer_id dealer_name %}"
+    method="post"
+  >
+    {% csrf_token %}
+    <!-- Review input -->
+    <div class="mb-3">
+      <label class="form-label" for="content">Enter the review content:</label>
+      <textarea class="form-control" id="content" name="content" placeholder="Start typing..." rows="2" required data-sb-validations="required"></textarea>
+      <div class="invalid-feedback" data-sb-feedback="content:required">
+        User Name is required.
+      </div>
+    </div>
+
+    <!-- Purchase Data input -->
+    <div class="mb-3">
+      <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck">
+      <label class="form-label" for="purchasecheck">Has purchased car? (select purchased car information below if checked)</label>
+    </div>
+
+    <!-- Car Details input -->
+    <div class="mb-3">
+        <label class="form-label" for="car">Select your car (model-make-year):</label>
+        <select name="car" id="car" class="form-select" required>
+            {% for car in cars %}
+                <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Purchase date input -->
+    <div class="mb-3">
+      <label class="form-label" for="purchasedate">Select Your Purchase Date:</label>
+      <input class="date-own form-control" type="date" name="purchasedate" id="purchasedate" placeholder="mm/dd/yyyy">
+    </div>
+
+    <!-- Form submissions success message -->
+    <div class="d-none" id="submitSuccessMessage">
+      <div class="text-center mb-3">Form submission successful!</div>
+    </div>
+
+    <!-- Form submissions error message -->
+    <div class="d-none" id="submitErrorMessage">
+      <div class="text-center text-danger mb-3">Error sending message!</div>
+    </div>
+
+    <!-- Form submit button -->
+    <div class="d-grid">
+      <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+    </div>
+  </form>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $('.date-own').datepicker({
+            format: 'mm/dd/yyyy'
+        });
+    </script>
+{% endblock %}

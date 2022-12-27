@@ -65,12 +65,13 @@ class DealerReview:
     car_model: str
     car_year: int
     dealership: int
-    id: int
     sentiment: str
+    emotion: str
+    emotion_color: str
     reviewer: str
     purchase: bool
     purchase_date: str
     review: str
-    
+
     def __str__(self) -> str:
         return f"{self.reviewer}"

@@ -12,18 +12,22 @@
 
 <!--Add a dealer table here -->
 <div class="container-fluid" style="padding: 20px 50px">
-  <table class="table table-light table-striped table-hover" id="dealer-table">
+  <table class="table table-light table-striped table-hover" id="table" data-filter-control="true">
     <thead>
-      <th scope="col">No.</th>
-      <th scope="col">Dealer</th>
+      <th scope="col">ID</th>
+      <th scope="col">Dealer Name</th>
+      <th scope="col">City</th>
       <th scope="col">Address</th>
-      <th scope="col">State</th>
+      <th scope="col">Zip</th>
+      <th scope="col" data-field="state" data-filter-control="select">State</th>
     </thead>
     {% if dealerships %} {% for dealer in dealerships %}
     <tr>
-      <th scope="row">{{forloop.counter}}</th>
-      <td>{{dealer.full_name}}</td>
+      <th scope="row">{{dealer.id}}</th>
+      <td><a id="{{ dealer.id }}" href="{% url 'djangoapp:getreview' dealer.id dealer.full_name  %}">{{dealer.full_name}}</a></td>
+      <td>{{dealer.city}}</td>
       <td>{{dealer.address}}</td>
+      <td>{{dealer.zip}}</td>
       <td>{{dealer.state}}</td>
     </tr>
     {% endfor %} {% endif %}
@@ -31,6 +35,10 @@
 </div>
 {% endblock %} {% block javascript %}
 <script>
+  $(function() {
+    $('#table').bootstrapTable()
+  })
+
   // get the table element
   var $table = document.getElementById("dealer-table"),
     // number of rows per page
@@ -40,13 +48,14 @@
     // get the first cell's tag name (in the first row)
     $firstRow = $table.rows[0].firstElementChild.tagName,
     // boolean var to check if table has a head row
-    $hasHead = $firstRow === "TH",
+    $hasHead = true,
     // an array to hold each row
     $tr = [],
     // loop counters, to start count from rows[1] (2nd row) if the first row has a head tag
     $i,
     $ii,
     $j = $hasHead ? 1 : 0,
+    
     // holds the first row if it has a (<TH>) & nothing if (<TD>)
     $th = $hasHead ? $table.rows[0].outerHTML : "";
 
@@ -80,6 +89,7 @@
 
     // now the table has a processed group of rows ..
     $table.innerHTML = $rows;
+    
     // create the pagination buttons
     document.getElementById("buttons").innerHTML = pageButtons($pageCount, $p);
     // CSS Stuff
