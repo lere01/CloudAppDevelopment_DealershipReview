@@ -164,7 +164,6 @@ def add_review(request, dealer_id, dealer_name = ""):
         payload = {
             "review": review
         }
-        print(payload)
 
         try:
             logger.info(f"making post request to - {url}")
