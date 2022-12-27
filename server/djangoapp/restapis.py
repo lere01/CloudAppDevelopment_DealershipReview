@@ -8,7 +8,6 @@ from requests.auth import HTTPBasicAuth
 logger = logging.getLogger(__name__)
 
 
-
 # Create a `get_request` to make HTTP GET requests
 def get_request(url, **kwargs):
 
@@ -44,8 +43,8 @@ def post_request(url, payload, **kwargs):
 
     try:
         response = requests.post(url, headers={"Content-Type": "application/json"},
-        params=kwargs, json=payload
-    )
+                                 params=kwargs, json=payload
+                                 )
     except:
         logger.error("Network exception occurred")
 
@@ -83,7 +82,7 @@ def get_dealer_by_id_from_cf(url, dealerId):
         sentiment = analyze_review_sentiments(review)
 
         review_obj = DealerReview(
-            car_make=detail['car_make'], car_model=detail['car_model'], car_year=detail['car_year'], 
+            car_make=detail['car_make'], car_model=detail['car_model'], car_year=detail['car_year'],
             dealership=detail['dealership'], id=detail['id'], sentiment=sentiment, reviewer=detail['name'],
             purchase=detail['purchase'], purchase_date=detail['purchase_date'], review=review
         )
@@ -96,7 +95,7 @@ def analyze_review_sentiments(text):
 
     url = "https://us-south.functions.appdomain.cloud/api/v1/web/9cab6064-8f89-48a0-9509-f27bfdab97e9/api/sentiment"
     result = get_request(url, text=text)
-    
+
     # - Get the returned sentiment label such as Positive or Negative
     if result:
         sentiment = result["keywords"][0]["sentiment"]["label"]
